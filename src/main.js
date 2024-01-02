@@ -43,7 +43,7 @@ const getIMG = (query = "") => {
             if (response.ok) {
                 return response.json();
             } else {
-                throw new Error(`Sorry, there are no images matching your search query. Please try again!`);
+                throw new Error(`Error`);
             }
         })
 }
