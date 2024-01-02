@@ -74,6 +74,7 @@ img {
 
 
 .loader{
+    padding: 24px;
     font-size: 24px;
     color: #0e0d0d;
     display: flex;
