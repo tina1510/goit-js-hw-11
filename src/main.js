@@ -83,6 +83,7 @@ function generateImageGalleryMarkup(images) {
 
 function renderImages(query) {
     showLoader();
+    gallery.innerHTML = "";
 
     fetchImages(query)
         .then(images => {
