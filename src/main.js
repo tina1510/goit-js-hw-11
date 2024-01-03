@@ -22,14 +22,19 @@ hideLoader()
 form.addEventListener("submit", (event) => {
     event.preventDefault();
     const query = event.currentTarget.elements.query.value;
-    if (query.length < 2) {
-        alert("Your length is not enough. Min 3 letters");
+    if (query.length <= 3) {
+        iziToast.error({
+            message: `Your length is not enough. Min 3 letters`,
+            position: 'topRight',
+        });
+
+
     } else {
         renderImages(query);
     }
 });
 
-const getIMG = (query = "") => {
+const fetchImages = (query = "") => {
     const searchParams = new URLSearchParams({
         key: `41516813-c0516a6d5bb80b940f21213c5`,
         q: query,
@@ -48,9 +53,9 @@ const getIMG = (query = "") => {
         })
 }
 
-function getImageHTML(images) {
+function generateImageGalleryMarkup(images) {
 
-    gallery.innerHTML = images.reduce((html, { webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
+    const imageHTML = images.reduce((html, { webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
         return html + `
             <div class="gallery-item">
                 <a href="${largeImageURL}" data-lightbox="image">
@@ -71,6 +76,7 @@ function getImageHTML(images) {
                 
             </div>`;
     }, '');
+    gallery.insertAdjacentHTML("afterbegin", imageHTML);
     return;
  
 }
@@ -78,7 +84,7 @@ function getImageHTML(images) {
 function renderImages(query) {
     showLoader();
 
-    getIMG(query)
+    fetchImages(query)
         .then(images => {
             hideLoader();
             if (images.hits.length === 0) {
@@ -88,7 +94,7 @@ function renderImages(query) {
                 });
             } else { 
                
-               getImageHTML(images.hits);
+                generateImageGalleryMarkup(images.hits);
             const lightbox = new SimpleLightbox('.gallery a', {});
             lightbox.refresh();
         }   
@@ -98,4 +104,3 @@ function renderImages(query) {
             alert(error)}
             );
 }
-
