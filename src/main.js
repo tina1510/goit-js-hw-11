@@ -22,7 +22,7 @@ hideLoader()
 form.addEventListener("submit", (event) => {
     event.preventDefault();
     const query = event.currentTarget.elements.query.value;
-    if (query.length <= 3) {
+    if (query.length < 3) {
         iziToast.error({
             message: `Your length is not enough. Min 3 letters`,
             position: 'topRight',
@@ -102,6 +102,9 @@ function renderImages(query) {
         })
         .catch(error => {
             hideLoader();
-            alert(error)}
+            iziToast.error({
+                message: `Error`,
+                position: 'topRight',
+            });}
             );
 }
